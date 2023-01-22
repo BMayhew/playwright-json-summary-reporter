@@ -1,4 +1,16 @@
 {
   "name": "@butchmayhew/playwright-json-summary-reporter",
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "description": "A Simple Playwright Reporter",
+  "license": "MIT",
+  "repository": "bmayhew/playwright-json-summary-reporter",
+  "main": "index.js",
+  "keywords": [
+    "playwright",
+    "reporter",
+    "package",
+    "bmayhew",
+    "butchmayhew",
+    "playwright-reporter"
+  ]
 }
