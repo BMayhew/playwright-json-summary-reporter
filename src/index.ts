@@ -1,10 +1,10 @@
-import * as fs from "fs";
+import * as fs from 'fs';
 import {
   TestCase,
   TestResult,
   Reporter,
   FullResult,
-} from "@playwright/test/reporter";
+} from '@playwright/test/reporter';
 
 export interface Summary {
   durationInMS: number;
@@ -13,10 +13,10 @@ export interface Summary {
   failed: string[];
   warned: string[];
   timedOut: string[];
-  status: FullResult["status"] | "unknown" | "warned" | "skipped";
+  status: FullResult['status'] | 'unknown' | 'warned' | 'skipped';
 }
 
-class SummaryReporter implements Reporter, Summary {
+class JSONSummaryReporter implements Reporter, Summary {
   durationInMS = -1;
   passed: string[] = [];
   skipped: string[] = [];
@@ -24,7 +24,7 @@ class SummaryReporter implements Reporter, Summary {
   warned: string[] = [];
   timedOut: string[] = [];
 
-  status: Summary["status"] = "unknown";
+  status: Summary['status'] = 'unknown';
   startedAt = 0;
 
   onBegin() {
@@ -36,10 +36,10 @@ class SummaryReporter implements Reporter, Summary {
     const fileName = [];
     let clean = true;
     for (const s of test.titlePath()) {
-      if (s === "" && clean) continue;
+      if (s === '' && clean) continue;
       clean = false;
       title.push(s);
-      if (s.includes("spec.ts")) {
+      if (s.includes('spec.ts')) {
         fileName.push(s);
       }
     }
@@ -48,11 +48,11 @@ class SummaryReporter implements Reporter, Summary {
     const z = `${fileName[0]}:${test.location.line}:${test.location.column}`;
 
     // Using the t variable in the push will push a full test test name + test description
-    const t = title.join(" > ");
+    const t = title.join(' > ');
 
     const status =
-      !["passed", "skipped"].includes(result.status) && t.includes("@warn")
-        ? "warned"
+      !['passed', 'skipped'].includes(result.status) && t.includes('@warn')
+        ? 'warned'
         : result.status;
     this[status].push(z);
   }
@@ -72,8 +72,8 @@ class SummaryReporter implements Reporter, Summary {
         return this.failed.indexOf(element) === index;
     });
 
-    fs.writeFileSync("./summary.json", JSON.stringify(this, null, "  "));
+    fs.writeFileSync('./summary.json', JSON.stringify(this, null, '  '));
   }
 }
 
-export default module.exports = SummaryReporter;
+export default JSONSummaryReporter;
