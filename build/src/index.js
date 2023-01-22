@@ -1,8 +1,8 @@
 "use strict";
 exports.__esModule = true;
 var fs = require("fs");
-var SummaryReporter = /** @class */ (function () {
-    function SummaryReporter() {
+var JSONSummaryReporter = /** @class */ (function () {
+    function JSONSummaryReporter() {
         this.durationInMS = -1;
         this.passed = [];
         this.skipped = [];
@@ -12,10 +12,10 @@ var SummaryReporter = /** @class */ (function () {
         this.status = 'unknown';
         this.startedAt = 0;
     }
-    SummaryReporter.prototype.onBegin = function () {
+    JSONSummaryReporter.prototype.onBegin = function () {
         this.startedAt = Date.now();
     };
-    SummaryReporter.prototype.onTestEnd = function (test, result) {
+    JSONSummaryReporter.prototype.onTestEnd = function (test, result) {
         var title = [];
         var fileName = [];
         var clean = true;
@@ -38,7 +38,7 @@ var SummaryReporter = /** @class */ (function () {
             : result.status;
         this[status].push(z);
     };
-    SummaryReporter.prototype.onEnd = function (result) {
+    JSONSummaryReporter.prototype.onEnd = function (result) {
         var _this = this;
         this.durationInMS = Date.now() - this.startedAt;
         this.status = result.status;
@@ -53,6 +53,6 @@ var SummaryReporter = /** @class */ (function () {
         });
         fs.writeFileSync('./summary.json', JSON.stringify(this, null, '  '));
     };
-    return SummaryReporter;
+    return JSONSummaryReporter;
 }());
-exports["default"] = SummaryReporter;
+exports["default"] = JSONSummaryReporter;
